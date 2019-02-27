@@ -14,7 +14,7 @@ const int A1B = 6;//define pin 3 for A1B
 const int B1A = 8;//define pin 8 for B1A
 const int B1B = 9;//define pin 9 for B1B
 
-
+int value = 255;
 
 
 void setup() {
@@ -24,13 +24,18 @@ void setup() {
   pinMode(A1A,OUTPUT);
   pinMode(A1B,OUTPUT);    
   delay(3000);
+
+  Serial.begin(9600);
 }
 void changeSpeed(int value){
   analogWrite(A1A,value);
   analogWrite(A1B,LOW);
 }
 void loop() {
-  changeSpeed(255);
+  if(Serial.available()>0){
+    value = atoi(Serial.read() );
+  }
+  changeSpeed(value);
   /*
   motorA('R');// Turn motor A to RIGHT
   delay(2000);
