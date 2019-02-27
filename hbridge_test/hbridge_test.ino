@@ -15,6 +15,7 @@ const int B1A = 8;//define pin 8 for B1A
 const int B1B = 9;//define pin 9 for B1B
 
 int value = 255;
+String input;
 
 
 void setup() {
@@ -32,8 +33,10 @@ void changeSpeed(int value){
   analogWrite(A1B,LOW);
 }
 void loop() {
+  
   if(Serial.available()>0){
-    value = toInt(Serial.read() );
+    input = Serial.read();
+    value = input.toInt();
   }
   changeSpeed(value);
   /*
