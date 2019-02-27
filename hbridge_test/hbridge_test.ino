@@ -18,6 +18,8 @@ int value = 255;
 String input;
 
 
+
+
 void setup() {
   pinMode(B1A,OUTPUT);// define pin as output
   pinMode(B1B,OUTPUT);
@@ -28,53 +30,60 @@ void setup() {
 
   Serial.begin(9600);
 }
-void changeSpeed(int value){
+void loop() {
+  input = "";
+  
+  delay(100);
+  if(Serial.available() > 0){
+    bool negative = false;
+    while(Serial.available() >0){
+      char temp = Serial.read();
+      if(temp == '-'){
+        negative = true;  
+      }
+      if(isDigit(temp)){
+        input+=temp;
+      }
+        
+    }
+    Serial.print(input);
+    Serial.println();
+    
+    value = constrain(input.toInt(),0,255);
+    if(negative)
+      value = -1 * value;
+    Serial.println(value);
+  }
+
+  if(value>=0)
+    forward(value);
+  else if(value<0){
+    backward(value);
+  }
+}
+ 
+
+void forward(int value){
+  value = abs(value);
   analogWrite(A1A,value);
   analogWrite(A1B,LOW);
 }
-void loop() {
-  
-  if(Serial.available()>0){
-    input = Serial.read();
-    value = input.toInt();
-  }
-  changeSpeed(value);
-  /*
-  motorA('R');// Turn motor A to RIGHT
-  delay(2000);
-   motorA('L');// Turn motor A to LEFT
-  delay(2000);   
-  motorA('O');// Turn motor A OFF
-  delay(2000); 
-    
-   motorB('R');// Turn motor B to RIGHT
-  delay(2000);
-   motorB('L');// Turn motor B to LEFT
-  delay(2000); 
-  motorB('O');// Turn motor B OFF
-  delay(2000); 
-   
-   
-  motorA('R');// Turn motor A to RIGHT
-  //motorB('R'); // Turn motor A to RIGHT 
-  delay(2000);
-  motorA('L');// Turn motor A to LEFT
-  //motorB('L');// Turn motor B to LEFT     
-  delay(3000);
-  motorA('O');// Turn motor A OFF
-  //motorB('O');// Turn motor B OFF
-  delay(5000);
-  */
-   
+
+void backward(int value){
+  value = abs(value);
+  analogWrite(A1A,LOW);
+  analogWrite(A1B,value);
 }
 
-/*
- * @motorA
- * activation rotation of motor A
- * d is the direction
- * R = Right
- * L = Left
- */
+void strToInt(String input){
+  int value =0;
+  for(unsigned int i=input.length()-1;i>=0;i--){
+    value += input[i]* pow(10,i-(input.length()-1) );
+    
+  }
+  Serial.println(value);
+  
+}
 void motorA(char d)
 {
   if(d =='R'){
