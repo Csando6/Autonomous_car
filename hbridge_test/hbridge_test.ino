@@ -33,7 +33,7 @@ void changeSpeed(int value){
 }
 void loop() {
   if(Serial.available()>0){
-    value = atoi(Serial.read() );
+    value = toInt(Serial.read() );
   }
   changeSpeed(value);
   /*
