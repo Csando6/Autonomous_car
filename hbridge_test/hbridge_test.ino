@@ -11,8 +11,8 @@ You can share this acode as long as you keep the above note intact.
 const int A1A = 5;//define pin 2 for A1A
 const int A1B = 6;//define pin 3 for A1B
 
-const int B1A = 8;//define pin 8 for B1A
-const int B1B = 9;//define pin 9 for B1B
+const int B1A = 9;//define pin 8 for B1A
+const int B1B = 10;//define pin 9 for B1B
 
 int value = 255;
 String input;
@@ -29,50 +29,73 @@ void setup() {
   delay(3000);
 
   Serial.begin(9600);
+  turnLeft(100);
+  
 }
 void loop() {
-  input = "";
   
-  delay(100);
-  if(Serial.available() > 0){
-    bool negative = false;
-    while(Serial.available() >0){
-      char temp = Serial.read();
-      if(temp == '-'){
-        negative = true;  
-      }
-      if(isDigit(temp)){
-        input+=temp;
-      }
-        
-    }
-    Serial.print(input);
-    Serial.println();
-    
-    value = constrain(input.toInt(),0,255);
-    if(negative)
-      value = -1 * value;
-    Serial.println(value);
-  }
-
-  if(value>=0)
-    forward(value);
-  else if(value<0){
-    backward(value);
-  }
+//  input = "";
+//  
+//  delay(100);
+//  if(Serial.available() > 0){
+//    bool negative = false;
+//    while(Serial.available() >0){
+//      char temp = Serial.read();
+//      if(temp == '-'){
+//        negative = true;  
+//      }
+//      if(isDigit(temp)){
+//        input+=temp;
+//      }
+//        
+//    }
+//    Serial.print(input);
+//    Serial.println();
+//    
+//    value = constrain(input.toInt(),0,255);
+//    if(negative)
+//      value = -1 * value;
+//    Serial.println(value);
+//  }
+//
+//  if(value>=0)
+//    forward(value);
+//  else if(value<0){
+//    backward(value);
+//  }
 }
  
 
 void forward(int value){
-  value = abs(value);
   analogWrite(A1A,value);
   analogWrite(A1B,LOW);
+  
+  analogWrite(B1A,value);
+  analogWrite(B1B,LOW);
 }
 
 void backward(int value){
-  value = abs(value);
   analogWrite(A1A,LOW);
   analogWrite(A1B,value);
+
+  analogWrite(B1A,LOW);
+  analogWrite(B1B,value);
+}
+
+void turnLeft(int value){
+  analogWrite(A1A,LOW);
+  analogWrite(A1B,value);
+
+  analogWrite(B1A,value);
+  analogWrite(B1B,LOW);
+}
+
+void turnRight(int value){
+  analogWrite(A1A value);
+  analogWrite(A1B,LOW);
+
+  analogWrite(B1A,LOW);
+  analogWrite(B1B,value);
 }
 
 void strToInt(String input){
