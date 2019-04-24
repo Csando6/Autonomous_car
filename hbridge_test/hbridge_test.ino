@@ -16,70 +16,49 @@ const int B1B = 10;//define pin 9 for B1B
 
 int value = 255;
 String input;
-
-
-
+char inputChar = 'O';
 
 void setup() {
-  pinMode(B1A,OUTPUT);// define pin as output
+  pinMode(B1A,OUTPUT);
   pinMode(B1B,OUTPUT);
   
   pinMode(A1A,OUTPUT);
-  pinMode(A1B,OUTPUT);    
+  pinMode(A1B,OUTPUT);
   delay(3000);
 
   Serial.begin(9600);
-  turnLeft(100);
-  
 }
 void loop() {
+  if(Serial.available()>0){
+    inputChar = char(Serial.read());
+    Serial.println(inputChar);
+  }
+    
   
-//  input = "";
-//  
-//  delay(100);
-//  if(Serial.available() > 0){
-//    bool negative = false;
-//    while(Serial.available() >0){
-//      char temp = Serial.read();
-//      if(temp == '-'){
-//        negative = true;  
-//      }
-//      if(isDigit(temp)){
-//        input+=temp;
-//      }
-//        
-//    }
-//    Serial.print(input);
-//    Serial.println();
-//    
-//    value = constrain(input.toInt(),0,255);
-//    if(negative)
-//      value = -1 * value;
-//    Serial.println(value);
-//  }
-//
-//  if(value>=0)
-//    forward(value);
-//  else if(value<0){
-//    backward(value);
-//  }
+  switch(inputChar){
+    case 'O':
+      digitalWrite(7,LOW);
+      break;
+    case 'F':
+      digitalWrite(7,HIGH);
+      break;
+  }
 }
  
-
-void forward(int value){
-  analogWrite(A1A,value);
+void backward(int valueA, int valueB){
+  analogWrite(A1A,valueA);
   analogWrite(A1B,LOW);
   
-  analogWrite(B1A,value);
+  analogWrite(B1A,valueB);
   analogWrite(B1B,LOW);
 }
 
-void backward(int value){
+void forward(int valueA,int valueB){
   analogWrite(A1A,LOW);
-  analogWrite(A1B,value);
+  analogWrite(A1B,valueA);
 
   analogWrite(B1A,LOW);
-  analogWrite(B1B,value);
+  analogWrite(B1B,valueB);
 }
 
 void turnLeft(int value){
@@ -91,7 +70,7 @@ void turnLeft(int value){
 }
 
 void turnRight(int value){
-  analogWrite(A1A value);
+  analogWrite(A1A, value);
   analogWrite(A1B,LOW);
 
   analogWrite(B1A,LOW);
@@ -107,46 +86,3 @@ void strToInt(String input){
   Serial.println(value);
   
 }
-void motorA(char d)
-{
-  if(d =='R'){
-    digitalWrite(A1A,LOW);
-    digitalWrite(A1B,HIGH); 
-  }else if (d =='L'){
-    digitalWrite(A1A,HIGH);
-    digitalWrite(A1B,LOW);    
-  }else{
-    //Robojax.com L9110 Motor Tutorial
-    // Turn motor OFF
-    digitalWrite(A1A,LOW);
-    digitalWrite(A1B,LOW);    
-  }
-}// motorA end
-
-
-/*
- * @motorB
- * activation rotation of motor B
- * d is the direction
- * R = Right
- * L = Left
- */
- /*
-void motorB(char d)
-{
-
-    if(d =='R'){
-      digitalWrite(B1A,LOW);
-      digitalWrite(B1B,HIGH); 
-    }else if(d =='L'){
-      digitalWrite(B1A,HIGH);
-      digitalWrite(B1B,LOW);    
-    }else{
-    //Robojax.com L9110 Motor Tutorial
-    // Turn motor OFF      
-      digitalWrite(B1A,LOW);
-      digitalWrite(B1B,LOW);     
-    }
-
-}// motorB end 
-*/
