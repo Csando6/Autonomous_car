@@ -29,18 +29,29 @@ void setup() {
   Serial.begin(9600);
 }
 void loop() {
-  if(Serial.available()>0){
-    inputChar = char(Serial.read());
-    Serial.println(inputChar);
+  if(Serial.available()>0){//reads input from the tx device
+    while(Serial.available() > 0)
+      inputChar = char(Serial.read());
+    Serial.write(inputChar);//sends value to kaylyns arduino
   }
     
   
-  switch(inputChar){
+  switch(inputChar){//depending on what character was read, do an action
     case 'O':
       digitalWrite(7,LOW);
+      //forward(0,0);//stop
+      //delay(1000);
+      backward(200,200);
+      delay(1000);
+      forward(200,100);
+      delay(1000);
+      forward(0,0);
+      delay(2000);
       break;
     case 'F':
       digitalWrite(7,HIGH);
+      forward(200,200);//forward
+      delay(1000);
       break;
   }
 }
