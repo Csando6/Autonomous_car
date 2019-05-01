@@ -21,12 +21,12 @@ void loop() {
 
   switch(inputChar){
     case 'O'://stop
-    val = analogRead(pot);
-  freq = digitalRead(buzzer);
-  tone(buzzer, val); // Send 1KHz sound signal...
-  delay(1000);        // ...for 1 sec
-  noTone(buzzer);     // Stop sound...
-  delay(1000);        // ...for 1sec
+      val = analogRead(pot);
+      freq = digitalRead(buzzer);
+      tone(buzzer, val); // Send 1KHz sound signal...
+      delay(1000);        // ...for 1 sec
+      noTone(buzzer);     // Stop sound...
+      delay(1000);        // ...for 1sec
       break;
     case 'F'://go forward
       break;
