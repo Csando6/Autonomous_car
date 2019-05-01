@@ -1,9 +1,15 @@
 char inputChar;
-
-void setup() {
-  // put your setup code here, to run once:
+const int buzzer = 4; //buzzer to arduino pin 9
+const int pot = A0;
+int val;
+int freq;
+void setup(){
   Serial.begin(9600);
+  pinMode(buzzer, OUTPUT);
+  pinMode(pot,INPUT);// Set buzzer - pin 9 as an output
+  
 }
+
 
 void loop() {
   // put your main code here, to run repeatedly:
@@ -14,9 +20,15 @@ void loop() {
   }
 
   switch(inputChar){
-    case 'O':
+    case 'O'://stop
+    val = analogRead(pot);
+  freq = digitalRead(buzzer);
+  tone(buzzer, val); // Send 1KHz sound signal...
+  delay(1000);        // ...for 1 sec
+  noTone(buzzer);     // Stop sound...
+  delay(1000);        // ...for 1sec
       break;
-    case 'F':
+    case 'F'://go forward
       break;
   }
 
